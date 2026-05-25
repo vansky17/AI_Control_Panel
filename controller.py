@@ -7,12 +7,7 @@ class Controller:
         print("Initializing controller...")
 
         self.machine = Machine()
-
-        print("Machine connected to controller.")
-
         self.selected_part = None
-
-        print("No machine part selected.")
 
         self.menu_options = [
             "Component Explorer",
@@ -23,4 +18,5 @@ class Controller:
         ]
 
         self.running = True
+        self.ai_engaged = False
         print("Controller initialization complete.")

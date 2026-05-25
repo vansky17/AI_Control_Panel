@@ -1,5 +1,6 @@
 from monitor_info import build_info_lines
 from monitor_menu import build_menu_lines
+import os
 
 
 MONITOR_WIDTH = 45
@@ -13,7 +14,7 @@ def pad_lines(lines, total_lines):
 
 
 def render_ui(controller):
-
+    os.system("cls")
     info_lines = build_info_lines(controller.selected_part)
 
     menu_lines = build_menu_lines(controller)
