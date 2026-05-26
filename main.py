@@ -24,9 +24,6 @@ def main():
             controller.state = "COMPONENT_EXPLORER"
             time.sleep(2)
             render_ui(controller)
-                # Handle operational menu option    
-                # 
-
         elif controller.state == "COMPONENT_EXPLORER":
             if input_user.isdigit():
                 try:
