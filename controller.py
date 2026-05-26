@@ -14,9 +14,9 @@ class Controller:
             "Diagnostics",
             "Maintenance",
             "User Manual",
-            "Exit"
         ]
 
         self.running = True
-        self.ai_engaged = False
+        # self.ai_engaged = False
+        self.state = "BOOTING"
         print("Controller initialization complete.")
