@@ -3,7 +3,7 @@ from monitor_menu import build_menu_lines
 import os
 
 
-MONITOR_WIDTH = 45
+MONITOR_WIDTH =50
 
 
 def pad_lines(lines, total_lines):

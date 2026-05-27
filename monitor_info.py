@@ -12,6 +12,9 @@ def build_info_lines(selected_part):
     lines.append(selected_part.name)
 
     lines.append("")
+    lines.append(selected_part.image_path)
+
+    lines.append("")
 
     lines.append("Description:")
     lines.append(selected_part.description)

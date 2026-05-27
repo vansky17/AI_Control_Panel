@@ -46,11 +46,27 @@ def main():
                     controller.state = "OPERATIONAL"
                     time.sleep(1)
                     render_ui(controller)    
-
-        elif controller.state == "COMPONENT_EXPLORER" and (input_user == "b" or input_user == "Back"):
+        elif controller.state in (
+           "COMPONENT_EXPLORER",
+           "DIAGNOSTICS",
+           "MAINTENANCE",
+           "USERMANUAL"
+        ) and input_user in ("b", "Back"):
             controller.state = "OPERATIONAL"
             time.sleep(1)
-            render_ui(controller)         
+            render_ui(controller)
+        elif controller.state == "OPERATIONAL" and input_user == "2":
+            controller.state = "DIAGNOSTICS"
+            time.sleep(1)
+            render_ui(controller)
+        elif controller.state == "OPERATIONAL" and input_user == "3":
+            controller.state = "MAINTENANCE"
+            time.sleep(1)
+            render_ui(controller)
+        elif controller.state == "OPERATIONAL" and input_user == "4":
+            controller.state = "USERMANUAL"
+            time.sleep(1)
+            render_ui(controller)
         else:
             if input_user == "e" or input_user == "Exit":
                 controller.running = False
