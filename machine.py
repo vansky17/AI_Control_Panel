@@ -10,7 +10,7 @@ class Machine:
     def __init__(self):
         self.name = "Industrial Cooling System"
 
-        self.status = "Awaiting load"
+        self.status = "OFFLINE"
 
         self.parts = [
             MachinePart(
