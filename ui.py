@@ -3,6 +3,8 @@ from monitor_info import build_info_lines
 from monitor_menu import build_menu_lines
 import time
 from PIL import Image, ImageTk
+import winsound
+import os
 
 def start_ui(controller):
     print("Pillow works")
@@ -11,12 +13,14 @@ def start_ui(controller):
     # =========================
 
     root = tk.Tk()
-
+    root.configure(bg="black")
     root.title(
         "ROOM 4 - INDUSTRIAL SERVICE TERMINAL"
     )
 
     root.geometry("1200x700")
+
+    root.after(1000, lambda: winsound.PlaySound("sounds/welcome.wav", winsound.SND_FILENAME))
 
     # =========================
     # MAIN FRAME
@@ -36,7 +40,8 @@ def start_ui(controller):
     left_frame = tk.Frame(
         main_frame,
         bd=2,
-        relief="solid"
+        relief="solid",
+        bg="black"
     )
 
     left_frame.pack(
@@ -54,7 +59,8 @@ def start_ui(controller):
     right_frame = tk.Frame(
         main_frame,
         bd=2,
-        relief="solid"
+        relief="solid",
+        bg="black"
     )
 
     right_frame.pack(
@@ -73,9 +79,10 @@ def start_ui(controller):
    )
    #Button Commands 
     def engage_ai():
+
         controller.machine.status = "Loading machine data..."
         refresh_ui()
-        time.sleep(1)  # Simulate delay
+          # Simulate delay
         controller.machine.status = "OPERATIONAL"
         controller.state = "OPERATIONAL"
         refresh_ui()
@@ -88,8 +95,12 @@ def start_ui(controller):
             y=170 + index * 45
             )
 
+        if not controller.options_visited:
+            root.after(1000, lambda: winsound.PlaySound("sounds/options_menu.wav", winsound.SND_FILENAME))
+            controller.options_visited = True
     right_button_frame = tk.Frame(
-    right_frame
+    right_frame,
+    bg="black"
     )
 
     right_button_frame.pack(
@@ -97,7 +108,7 @@ def start_ui(controller):
         pady=20
     )
     def exit_session():
-
+        
         controller.machine.status = "Terminating session..."
 
         refresh_ui()
@@ -107,6 +118,8 @@ def start_ui(controller):
         controller.machine.status = "OFFLINE"
 
         controller.selected_part = None
+        image_label.config(image="")
+        image_label.image = None
         
         back_button.config(state="disabled")
         refresh_ui()
@@ -118,8 +131,7 @@ def start_ui(controller):
             button.place_forget()
         for button in component_buttons:
             button.place_forget()
-    def go_back():
-
+    def go_back():                          
         controller.state = "OPERATIONAL"
 
         refresh_ui()
@@ -133,6 +145,10 @@ def start_ui(controller):
         for button in component_buttons:
             button.place_forget()
     def open_menu(option):
+        winsound.PlaySound(
+        "sounds/clicky.wav",
+        winsound.SND_FILENAME
+        )
         for button in menu_buttons:
             button.place_forget()
         if option == "Component Explorer":
@@ -150,11 +166,16 @@ def start_ui(controller):
             controller.state = "MAINTENANCE"
         elif option == "User Manual":
             controller.state = "USERMANUAL"
-        
+        if option == "Component Explorer" and not controller.component_explorer_visited:    
+            root.after(1000, lambda: winsound.PlaySound("sounds/Compenent_Explorer.wav", winsound.SND_FILENAME))
+            controller.component_explorer_visited = True
         back_button.config(state="normal")
         refresh_ui()
     def select_part(part):
-
+        winsound.PlaySound(
+        "sounds/clicky.wav",
+        winsound.SND_FILENAME
+        )
         controller.selected_part = part
 
         refresh_ui()
@@ -167,7 +188,11 @@ def start_ui(controller):
         text=option,
         width=20,
         font=("Consolas", 12),
-        command=lambda opt=option: open_menu(opt)
+        command=lambda opt=option: open_menu(opt),
+        bg="#001100",
+        fg="#55FF55",
+        activebackground="#003300",
+        activeforeground="#AAFFAA"
         )
 
         menu_buttons.append(button)  
@@ -195,7 +220,11 @@ def start_ui(controller):
         right_button_frame,
         text="Engage AI",
         command=engage_ai,
-        font=("Consolas", 12)
+        font=("Consolas", 14,"bold"),
+        bg="#001100",
+        fg="#55FF55",
+        activebackground="#003300",
+        activeforeground="#AAFFAA"
    )
 
     engage_button.pack(side="left", padx=10)
@@ -203,9 +232,13 @@ def start_ui(controller):
     exit_button = tk.Button(
     right_button_frame,
     text="Exit",
-    font=("Consolas", 12),
+    font=("Consolas", 14,"bold"),
     state="disabled",
-    command=exit_session
+    command=exit_session,
+    bg="#001100",
+    fg="#55FF55",
+    activebackground="#003300",
+    activeforeground="#AAFFAA"
     )
 
     exit_button.pack(side="left", padx=10)
@@ -213,10 +246,14 @@ def start_ui(controller):
     back_button = tk.Button(
     right_button_frame,
     text="Back",
-    font=("Consolas", 12),
+    font=("Consolas", 14,"bold"),
     state="disabled",
-    command=go_back
-)
+    command=go_back,
+    bg="#001100",
+    fg="#55FF55",
+    activebackground="#003300",
+    activeforeground="#AAFFAA"
+    )
 
     back_button.pack(side="left", padx=10)
   
@@ -227,7 +264,9 @@ def start_ui(controller):
         text="LEFT MONITOR",
         justify="left",
         anchor="nw",
-        font=("Consolas", 12)
+        font=("Consolas", 12),
+        bg="black",
+        fg="#00FF00"
     )
 
     left_label.pack(
@@ -236,7 +275,12 @@ def start_ui(controller):
         padx=10,
         pady=10
     )
+    #  images:
+    image_label = tk.Label(left_frame)
 
+    image_label.pack(
+        pady=10
+    )
     # RIGHT LABEL
 
 
@@ -245,7 +289,9 @@ def start_ui(controller):
         text="RIGHT MONITOR",
         justify="left",
         anchor="nw",
-        font=("Consolas", 12)
+        font=("Consolas", 12),
+        bg="black",
+        fg="#00FF00"
     )
 
     right_label.pack(
@@ -272,6 +318,16 @@ def start_ui(controller):
         left_label.config(
             text="\n".join(info_lines)
         )
+        if controller.selected_part and controller.selected_part.image_path:
+            try:
+                image = Image.open(controller.selected_part.image_path)
+                image = image.resize((400, 300))
+                photo = ImageTk.PhotoImage(image)
+                image_label.config(image=photo)
+                image_label.image = photo  # Keep a reference to prevent garbage collection
+            except Exception as e:
+                print(f"Error loading image: {e}")
+                image_label.config(image="")
 
         right_label.config(
             text="\n".join(menu_lines)

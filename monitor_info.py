@@ -12,7 +12,7 @@ def build_info_lines(selected_part):
     lines.append(selected_part.name)
 
     lines.append("")
-    lines.append(selected_part.image_path)
+    # lines.append(selected_part.image_path)
 
     lines.append("")
 
