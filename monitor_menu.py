@@ -40,7 +40,7 @@ def build_menu_lines(controller):
         lines.append(f"Machine: {controller.machine.name}")
         lines.append(f"Status: {controller.machine.status}")
         lines.append("===================================")
-        lines.append("YOU WON'T READ THIS MANUAL ANYWAY.")
+        lines.append("YOU WON'T READ THE MANUAL ANYWAY.")
         lines.append("SO NO MANUAL FOR YOU.")          
         lines.append("===================================")
     return lines

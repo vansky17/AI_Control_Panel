@@ -1,7 +1,6 @@
 from machine import Machine
 from controller import Controller
 from ui import start_ui
-import time
 
 from controller import Controller
 from ui import start_ui

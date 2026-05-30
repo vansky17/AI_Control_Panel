@@ -1,16 +1,13 @@
 import tkinter as tk
 from monitor_info import build_info_lines
 from monitor_menu import build_menu_lines
-import time
 from PIL import Image, ImageTk
 import winsound
 import os
 
 def start_ui(controller):
-    print("Pillow works")
-     # =========================
-    # WINDOW
-    # =========================
+
+    # WINDOW SETUP
 
     root = tk.Tk()
     root.configure(bg="black")
@@ -20,11 +17,9 @@ def start_ui(controller):
 
     root.geometry("1200x700")
 
-    root.after(1000, lambda: winsound.PlaySound("sounds/welcome.wav", winsound.SND_FILENAME))
+    root.after(500, lambda: winsound.PlaySound("sounds/welcome.wav", winsound.SND_FILENAME))
 
-    # =========================
-    # MAIN FRAME
-    # =========================
+    # MAIN FRAME 
 
     main_frame = tk.Frame(root)
 
@@ -32,10 +27,8 @@ def start_ui(controller):
         fill="both",
         expand=True
     )
-
-    # =========================
+  
     # LEFT MONITOR
-    # =========================
 
     left_frame = tk.Frame(
         main_frame,
@@ -52,10 +45,8 @@ def start_ui(controller):
         pady=10
     )
 
-    # =========================
     # RIGHT MONITOR
-    # =========================
-
+ 
     right_frame = tk.Frame(
         main_frame,
         bd=2,
@@ -96,8 +87,9 @@ def start_ui(controller):
             )
 
         if not controller.options_visited:
-            root.after(1000, lambda: winsound.PlaySound("sounds/options_menu.wav", winsound.SND_FILENAME))
+            root.after(500, lambda: winsound.PlaySound("sounds/options_menu.wav", winsound.SND_FILENAME))
             controller.options_visited = True
+            
     right_button_frame = tk.Frame(
     right_frame,
     bg="black"
@@ -167,10 +159,11 @@ def start_ui(controller):
         elif option == "User Manual":
             controller.state = "USERMANUAL"
         if option == "Component Explorer" and not controller.component_explorer_visited:    
-            root.after(1000, lambda: winsound.PlaySound("sounds/Compenent_Explorer.wav", winsound.SND_FILENAME))
+            root.after(500, lambda: winsound.PlaySound("sounds/Compenent_Explorer.wav", winsound.SND_FILENAME))
             controller.component_explorer_visited = True
         back_button.config(state="normal")
         refresh_ui()
+
     def select_part(part):
         winsound.PlaySound(
         "sounds/clicky.wav",
@@ -229,6 +222,19 @@ def start_ui(controller):
 
     engage_button.pack(side="left", padx=10)
 
+    back_button = tk.Button(
+    right_button_frame,
+    text="Back",
+    font=("Consolas", 14,"bold"),
+    state="disabled",
+    command=go_back,
+    bg="#001100",
+    fg="#55FF55",
+    activebackground="#003300",
+    activeforeground="#AAFFAA"
+    )
+
+    back_button.pack(side="left", padx=10)
     exit_button = tk.Button(
     right_button_frame,
     text="Exit",
@@ -243,19 +249,7 @@ def start_ui(controller):
 
     exit_button.pack(side="left", padx=10)
 
-    back_button = tk.Button(
-    right_button_frame,
-    text="Back",
-    font=("Consolas", 14,"bold"),
-    state="disabled",
-    command=go_back,
-    bg="#001100",
-    fg="#55FF55",
-    activebackground="#003300",
-    activeforeground="#AAFFAA"
-    )
-
-    back_button.pack(side="left", padx=10)
+   
   
     # LEFT LABEL
 
@@ -300,24 +294,16 @@ def start_ui(controller):
         padx=10,
         pady=10
     )
-   
- 
-    # REFRESH UI
 
+    # REFRESH UI FUNCTION
 
     def refresh_ui():
 
-        info_lines = build_info_lines(
-            controller.selected_part
-        )
+        info_lines = build_info_lines(controller.selected_part)
 
-        menu_lines = build_menu_lines(
-            controller
-        )
+        menu_lines = build_menu_lines(controller)
 
-        left_label.config(
-            text="\n".join(info_lines)
-        )
+        left_label.config(text="\n".join(info_lines))
         if controller.selected_part and controller.selected_part.image_path:
             try:
                 image = Image.open(controller.selected_part.image_path)
@@ -329,20 +315,13 @@ def start_ui(controller):
                 print(f"Error loading image: {e}")
                 image_label.config(image="")
 
-        right_label.config(
-            text="\n".join(menu_lines)
-        )
+        right_label.config(text="\n".join(menu_lines))
 
   
     # INITIAL REFRESH
 
 
     refresh_ui()
-   
-    # refresh_ui()
-  
-    # START TKINTER
-
 
     root.mainloop()
 
